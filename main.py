@@ -1,8 +1,11 @@
+import time
 import requests
 from bs4 import BeautifulSoup
+import smtplib
 import urllib.request
 import lxml
-
+MY_EMAIL = "testimony9001@gmail.com"
+MY_PASS = "Hello$123"
 Headers = {
     'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
     'Accept-Language':"en-US,en;q=0.9",
@@ -18,12 +21,25 @@ response = requests.get(URL, headers=Headers)
 soup = BeautifulSoup(response.content, "lxml")
 print(soup.prettify())
 instant_price = soup.find(name="span", class_="a-price-whole")
-price = int(instant_price.getText())
+price = (instant_price.getText())
 print(price)
-mylist = []
-for i in price:
-    if price[i] >= 48 and price[i] <= 57:
-
-my_price = 25000
-if price<=my_price:
-    print(mail)
+ml = price.split(",")
+ml2 = ml[1].split(".")
+# print(ml[0])
+# print(ml2[0])
+p = int(ml[0])
+l = int(ml2[0])
+netprice = p * 1000 + l
+print(netprice)
+myprice = int(34590)
+while True:
+    time.sleep(60)
+    if netprice <= myprice:
+        connection = smtplib.SMTP("smtp.gmail.com")
+        connection.starttls()
+        connection.login(MY_EMAIL, MY_PASS)
+        connection.sendmail(
+            from_addr=MY_EMAIL,
+            to_addrs=MY_EMAIL,
+            msg="Subject:Purchase Time\n\nThe phone is available at your set price. Go purchase now."
+        )
